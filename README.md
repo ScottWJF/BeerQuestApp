@@ -1,5 +1,7 @@
 Rudimentary front end using the leeds beer quest api. Results show top 100 pubs/bars sorted nearest first. Allows filtering via services (tags) and by rating. 
 
+Amongst other things it is missing tests and could do with better visual restructuring css-wise.
+
 # BeerQuest
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.22.
