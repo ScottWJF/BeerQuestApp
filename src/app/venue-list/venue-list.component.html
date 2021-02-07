@@ -1,0 +1,88 @@
+
+<div class="filter-controls">
+  <button mat-raised-button color="primary" [matMenuTriggerFor]="menu">Tags</button> <br/>
+  <mat-menu #menu="matMenu">
+    <button *ngFor="let tag of availableTags" (click)="selectTag(tag)" mat-menu-item>{{tag}}</button>
+  </mat-menu>
+
+  <mat-form-field class="tag-filter">
+    <mat-chip-list>
+      <mat-chip *ngFor="let tag of selectedTags"
+                [selectable]="false"
+                [removable]="true"
+                (removed)="removeTag(tag)">
+        {{tag}}
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+    </mat-chip-list>
+  </mat-form-field>
+  <br/>
+  <mat-slider [max]="5" [min]="0" [step]="0.5" [(ngModel)]="selectedStarRating"></mat-slider> Minimum Stars: {{selectedStarRating}}
+
+  <div class="lat-lng-selection">
+    <mat-form-field>
+      <mat-label>Latitude</mat-label>
+      <input class="lat-lng-input" matInput [(ngModel)]="currentLatLng.lat" />
+    </mat-form-field>
+    <br/>
+    <mat-form-field>
+      <mat-label>Longitude</mat-label>
+      <input class="lat-lng-input" matInput [(ngModel)]="currentLatLng.lng" />
+    </mat-form-field>
+  </div>
+
+  <button mat-raised-button color="primary" (click)="applyFilters()">Apply Filters</button>
+</div>
+
+<table mat-table
+       [dataSource]="venues" multiTemplateDataRows
+       class="mat-elevation-z8">
+
+  <ng-container matColumnDef="category">
+    <th mat-header-cell *matHeaderCellDef> Category </th>
+    <td mat-cell *matCellDef="let venue"> {{venue["category"]}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Name </th>
+    <td mat-cell *matCellDef="let venue"> {{venue["name"]}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="excerpt">
+    <th mat-header-cell *matHeaderCellDef> Description </th>
+    <td mat-cell *matCellDef="let venue"> {{venue["description"]}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="stars_value">
+    <th mat-header-cell *matHeaderCellDef> Stars </th>
+    <td mat-cell *matCellDef="let venue"> {{venue["stars"]}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="expandedDetail">
+    <td mat-cell *matCellDef="let venue" [attr.colspan]="columnsToDisplay.length">
+      <div class="venue-detail"
+           [@detailExpand]="venue == expandedvenue ? 'expanded' : 'collapsed'">
+
+        <div class="venue-description">
+          <img class="venue-image" src="{{venue.imageUrl}}" />
+          <div class="contact-information">
+            <b>Distance:</b> {{venue.distanceAway.toFixed(2)}} km <br/>
+            <b>Address:</b> {{venue.address}} <br />
+            <b>Phone Number: </b>{{venue.phoneNumber}}
+          </div>
+          <mat-chip-list class="description-tags" *ngFor="let tag of venue.tags">
+            <mat-chip [selectable]="false" *ngIf="tag && tag.length">{{tag}}</mat-chip>
+          </mat-chip-list>
+        </div>
+      </div>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+  <tr mat-row *matRowDef="let venue; columns: columnsToDisplay;"
+      class="venue-row"
+      [class.expanded-row]="expandedvenue === venue"
+      (click)="expandedvenue = expandedvenue === venue ? null : venue">
+  </tr>
+  <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
+</table>

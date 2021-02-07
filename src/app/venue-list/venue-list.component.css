@@ -1,0 +1,60 @@
+table {
+  width: 100%;
+}
+
+tr.detail-row {
+  height: 0;
+}
+
+tr.venue-row:not(.expanded-row):active {
+  background: #efefef;
+}
+
+.venue-row td {
+  border-bottom-width: 0;
+}
+
+.venue-detail {
+  overflow: hidden;
+  display: flex;
+}
+
+.venue-description {
+  padding: 16px;
+}
+
+.venue-image {
+  display: block;
+  max-width: 300px;
+  max-height: 200px;
+  width: auto;
+  height: auto;
+}
+
+.tag-filter {
+  width: 80%;
+  margin: 5px;
+}
+
+.filter-controls {
+  margin: 10px;
+  outline-style: auto;
+  padding: 5px;
+}
+
+.contact-information {
+  margin: 10px;
+}
+
+.description-tags {
+  display: inline-block;
+  margin: 2px;
+}
+
+.lat-lng-selection {
+  margin: 10px;
+}
+
+.lat-lng-input {
+  margin: 10px;
+}
